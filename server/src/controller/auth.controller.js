@@ -1,5 +1,8 @@
 import userModel from "../model/user.model.js";
 import generateToken from "../utlis/token.js";
+// @desc    Register a new user
+// @route   POST /api/auth/register
+// @access  Public
 const registerController = async (req, res) => {
     const { email, password, fullName, contact } = req.body;
     console.log(email, password, fullName, contact);
@@ -26,6 +29,10 @@ const registerController = async (req, res) => {
         token
     })
 }
+//..............................................................................................
+// @desc    Login a user
+// @route   POST /api/auth/login
+// @access  Public
 
 
 
