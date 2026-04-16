@@ -4,7 +4,7 @@ import generateToken from "../utlis/token.js";
 // @route   POST /api/auth/register
 // @access  Public
 const registerController = async (req, res) => {
-    const { email, password, fullName, contact } = req.body;
+    const { email, password, fullName, contact, isSeller } = req.body;
     console.log(email, password, fullName, contact);
     // check if user already exists
     const existingUser = await userModel.findOne({
@@ -20,7 +20,8 @@ const registerController = async (req, res) => {
         email,
         password,
         fullName,
-        contact
+        contact,
+        role: isSeller ? "seller" : "buyer"
     })
     const token = generateToken(user);
     res.cookie("token", token, {
