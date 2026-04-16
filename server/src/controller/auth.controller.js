@@ -23,11 +23,18 @@ const registerController = async (req, res) => {
         contact
     })
     const token = generateToken(user);
+    res.cookie("token", token, {
+        httpOnly: true, // prevent client side js from accessing the cookie
+        secure: false, // only send over HTTPS in production set true when deploying
+        sameSite: "lax", // prevent CSRF attacks set strict when deploying
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    })
     return res.status(201).json({
         message: "User created successfully",
         user,
         token
     })
+
 }
 //..............................................................................................
 // @desc    Login a user
