@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* 👇 ADD THIS LINE TO ENABLE MANUAL TOGGLING */
+@custom-variant dark (&:where(.dark, .dark *));

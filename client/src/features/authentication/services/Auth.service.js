@@ -1,11 +1,11 @@
 import axios from "axios";
 const api = axios.create({
-    baseURL: "http://localhost:3000/api/v1",
+    baseURL: "http://localhost:3000/api/auth",
     withCredentials: true
 })
 export const register = async (email, password, fullName, contact, isSeller) => {
     try {
-        const response = await api.post("/auth/register", {
+        const response = await api.post("/register", {
             email,
             password,
             fullName,
@@ -14,7 +14,8 @@ export const register = async (email, password, fullName, contact, isSeller) => 
         })
         return response.data
     } catch (error) {
-        return error.response.data
+        // Throw so useAuth catch block can handle it properly
+        throw new Error(error.response?.data?.message || "Registration failed")
     }
 }
 export default api

@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import Register from "../features/authentication/pages/Register.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -8,7 +9,7 @@ const routes = createBrowserRouter([
 
   {
     path: "/register",
-    element: <h1>Register</h1>,
+    element: <Register />
   },
 ]);
 
