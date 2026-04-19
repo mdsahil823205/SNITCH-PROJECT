@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth.js";
 import DarkModeAndLightMode from "../components/DarkModeAndLightMode.jsx";
+import { NavLink } from "react-router-dom";
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 
 const Register = () => {
   const { handleRegister } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -12,14 +15,12 @@ const Register = () => {
   });
 
   const handleChange = (e) => {
-    // Crucial fix: e.target.name must match the keys in formData state
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Order must match useAuth: (email, password, fullName, contact)
-    handleRegister(
+    await handleRegister(
       formData.email,
       formData.password,
       formData.fullName,
@@ -29,106 +30,110 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex text-gray-900 dark:text-gray-100 bg-[#f8f9fa] dark:bg-[#131313] transition-colors duration-300">
-      {/* Left Pane - Image stays exactly as you wanted */}
+      
+      {/* Left Pane - Image */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-gray-200 dark:bg-[#1b1b1b] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=2574&auto=format&fit=crop"
-          alt="Background"
+          alt="Fashion Background"
           className="absolute inset-0 w-full h-full object-cover opacity-90 dark:opacity-70"
         />
         <div className="absolute inset-0 bg-linear-to-br from-black/40 via-transparent to-black/60 dark:from-[#131313]/80 dark:to-[#131313]/90"></div>
 
-        <div className="relative z-10 flex flex-col justify-between p-16 w-full">
-          <h1 className="text-4xl font-extrabold tracking-widest text-white uppercase font-serif">
-            SNITCH
-          </h1>
+        <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
+          <h1 className="text-3xl xl:text-4xl font-extrabold tracking-widest text-white uppercase font-serif">SNITCH</h1>
           <div className="mb-12">
-            <h2 className="text-5xl font-light leading-tight text-white mb-6">
-              Redefining <br />
-              <span className="font-semibold text-white">Modern Elegance.</span>
+            <h2 className="text-4xl xl:text-6xl font-light leading-tight text-white mb-6">
+              Redefining <br /><span className="font-semibold text-white">Modern Elegance.</span>
             </h2>
-            <p className="text-lg text-gray-200 max-w-md font-light">
-              Join our exclusive atelier. Get early access to limited
-              collections and personalized style curations.
+            <p className="text-base xl:text-lg text-gray-200 max-w-md font-light leading-relaxed">
+              Join our exclusive atelier. Get early access to limited collections and personalized style curations.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Right Pane - Form Section */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-16 md:px-24 xl:px-32 relative bg-[#f8f9fa] dark:bg-[#131313]">
-        {/* Theme Toggle Component */}
-        <div className="absolute top-8 right-8">
+      {/* Right Pane - Form */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center py-12 px-6 sm:px-12 md:px-20 lg:px-16 xl:px-32 relative">
+        <div className="absolute top-6 right-6 sm:top-8 sm:right-8 z-20">
           <DarkModeAndLightMode />
         </div>
 
-        <div className="max-w-md w-full mx-auto">
-          <div className="lg:hidden mb-12">
-            <h1 className="text-3xl font-extrabold tracking-widest text-gray-900 dark:text-white uppercase font-serif">
-              SNITCH
-            </h1>
+        <div className="max-w-md w-full">
+          <div className="lg:hidden mb-8 text-center sm:text-left">
+            <h1 className="text-2xl font-extrabold tracking-widest text-gray-900 dark:text-white uppercase font-serif">SNITCH</h1>
           </div>
-          <h2 className="text-3xl font-semibold mb-2 text-gray-900 dark:text-white tracking-tight">
-            Create an Account
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-[#c6c6c6] mb-8">
-            Enter your details below to join the atelier.
-          </p>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <header className="mb-8 text-center sm:text-left">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">Create an Account</h2>
+            <p className="text-sm text-gray-500 dark:text-[#c6c6c6] mt-2">Enter your details below to join the atelier.</p>
+          </header>
+
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             <input
               type="text"
-              name="fullName" // Added name attribute
+              name="fullName"
               onChange={handleChange}
               value={formData.fullName}
               placeholder="Full Name"
-              className="w-full px-4 py-3 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white transition-colors duration-200 text-sm"
+              className="w-full px-4 py-3 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none border-b-2 focus:border-black dark:focus:border-white transition-all text-sm"
               required
             />
             <input
               type="email"
-              name="email" // Added name attribute
+              name="email"
               onChange={handleChange}
               value={formData.email}
               placeholder="Email"
-              className="w-full px-4 py-3 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white transition-colors duration-200 text-sm"
+              className="w-full px-4 py-3 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none border-b-2 focus:border-black dark:focus:border-white transition-all text-sm"
               required
             />
             <input
               type="tel"
-              name="contact" // Added name attribute
+              name="contact"
               onChange={handleChange}
               value={formData.contact}
               placeholder="Contact"
-              className="w-full px-4 py-3 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white transition-colors duration-200 text-sm"
+              className="w-full px-4 py-3 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none border-b-2 focus:border-black dark:focus:border-white transition-all text-sm"
               required
             />
-            <input
-              type="password"
-              name="password" // Added name attribute
-              onChange={handleChange}
-              value={formData.password}
-              placeholder="Password"
-              className="w-full px-4 py-3 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white transition-colors duration-200 text-sm"
-              required
-            />
-            <div className="pt-4">
+            
+            {/* Password Container Fixed */}
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                onChange={handleChange}
+                value={formData.password}
+                placeholder="Password"
+                className="w-full px-4 py-3 pr-12 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none border-b-2 focus:border-black dark:focus:border-white transition-all text-sm"
+                required
+              />
+              <button 
+                type="button" // Prevents form submission
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black dark:hover:text-white transition-colors"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <VscEye size={20} /> : <VscEyeClosed size={20} />}
+              </button>
+            </div>
+
+            <div className="pt-2">
               <button
                 type="submit"
-                className="w-full bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-300 text-sm tracking-wide"
+                className="w-full bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 rounded-md hover:opacity-90 active:scale-[0.98] transition-all text-sm tracking-wide shadow-md"
               >
                 CREATE ACCOUNT
               </button>
             </div>
           </form>
 
-          {/* Footer / Login Link */}
-          <div className="mt-8 text-center text-sm text-gray-600 dark:text-[#c6c6c6]">
+          <footer className="mt-8 text-center text-sm text-gray-600 dark:text-[#c6c6c6]">
             Already have an account?{' '}
-            <a href="/login" className="font-semibold text-black dark:text-white hover:underline transition-all">
+            <NavLink to="/login" className="font-semibold text-black dark:text-white hover:underline transition-all">
               Log in
-            </a>
-          </div>
+            </NavLink>
+          </footer>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import express from "express";
 import { registerController, loginController, logoutController, getMeController } from "../controller/auth.controller.js";
-import { registerValidator } from "../validator/auth.validator.js";
+import { loginValidator, registerValidator } from "../validator/auth.validator.js";
 const authRouter = express.Router();
 /**
  * @route   POST /api/auth/register
@@ -16,7 +16,7 @@ authRouter.post("/register", registerValidator, registerController);
  * @access  Public
  **/
 
-authRouter.post("/login", loginController);
+authRouter.post("/login", loginValidator, loginController);
 
 //..............................................................................................
 /**
