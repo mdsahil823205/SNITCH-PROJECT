@@ -1,6 +1,7 @@
 import express from "express";
-import { registerController, loginController, logoutController, getMeController } from "../controller/auth.controller.js";
+import { registerController, loginController, logoutController, getMeController, googleAuthController } from "../controller/auth.controller.js";
 import { loginValidator, registerValidator } from "../validator/auth.validator.js";
+import passport from "passport";
 const authRouter = express.Router();
 /**
  * @route   POST /api/auth/register
@@ -8,6 +9,26 @@ const authRouter = express.Router();
  * @access  Public
 **/
 authRouter.post("/register", registerValidator, registerController);
+
+//..............................................................................................
+/**
+ * @route   GET /api/auth/google
+ * @desc    Google authentication
+ * @access  Public
+**/
+authRouter.get("/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+)
+/**
+ * @route   GET /api/auth/google/callback
+ * @desc    Google authentication callback
+ * @access  Public
+**/
+authRouter.get("/google/callback",
+    passport.authenticate("google", { session: false }),
+    googleAuthController
+)
+
 
 //..............................................................................................
 /**

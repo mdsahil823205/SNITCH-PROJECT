@@ -119,9 +119,10 @@ const Register = () => {
             </div>
 
             <div className="pt-2">
+              <a href="/api/auth/google" className="underline">continue with google</a>
               <button
                 type="submit"
-                className="w-full bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 rounded-md hover:opacity-90 active:scale-[0.98] transition-all text-sm tracking-wide shadow-md"
+                className="w-full mt-4 bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 rounded-md hover:opacity-90 active:scale-[0.98] transition-all text-sm tracking-wide shadow-md"
               >
                 CREATE ACCOUNT
               </button>
