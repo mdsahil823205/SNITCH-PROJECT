@@ -4,6 +4,7 @@ import generateToken from "../utlis/token.js";
 // @route   POST /api/auth/register
 // @access  Public
 const registerController = async (req, res) => {
+    try{
     const { email, password, fullName, contact, isSeller } = req.body;
     console.log(email, password, fullName, contact);
     // check if user already exists
@@ -35,7 +36,13 @@ const registerController = async (req, res) => {
         user,
         token
     })
-
+}
+catch(error){
+    return res.status(500).json({
+        message: "Internal server error",
+        error: error.message
+    })
+}
 }
 //..............................................................................................
 // @desc    Login a user
