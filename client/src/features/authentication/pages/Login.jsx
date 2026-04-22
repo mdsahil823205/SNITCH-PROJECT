@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import DarkModeAndLightMode from "../components/DarkModeAndLightMode.jsx";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import ContinueWithGoogle from "../components/ContinueWithGoogle.jsx";
 const Login = () => {
   const { handleLogin } = useAuth();
   const [formData, setFormData] = useState({
@@ -134,6 +135,7 @@ const Login = () => {
                 SIGN IN
               </button>
             </div>
+            <ContinueWithGoogle />
           </form>
 
           {/* Divider */}

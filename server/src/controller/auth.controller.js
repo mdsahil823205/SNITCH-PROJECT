@@ -51,8 +51,41 @@ const registerController = async (req, res) => {
 // @route   GET /google/callback
 // @access  Public
 export const googleAuthController = async (req, res) => {
-    console.log(req.user)
-    res.redirect("http://localhost:5173/")
+    try {
+        console.log(req.user)
+        const { id, displayName, emails, photos } = req.user
+        const email = emails[0].value
+        const profilePic = photos[0].value
+
+        let user = await userModel.findOne({
+            email
+        })
+        if (!user) {
+            user = await userModel.create({
+                email,
+                password: "",
+                fullName: displayName,
+                contact: "",
+                googleId: id,
+                profilePic: profilePic || "",
+            })
+        }
+        const token = generateToken(user)
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 24 * 60 * 60 * 1000
+        })
+        res.redirect("http://localhost:5173/")
+      
+
+    } catch (err) {
+        return res.status(500).json({
+            message: "Internal server error",
+            error: err.message
+        })
+    }
 }
 
 
@@ -89,9 +122,11 @@ const loginController = async (req, res) => {
             sameSite: "lax", // prevent CSRF attacks set strict when deploying
             maxAge: 24 * 60 * 60 * 1000 // 24 hours
         })
+        const hidePasswordUser = user.toObject();
+        delete hidePasswordUser.password;
         return res.status(200).json({
             message: "User logged in successfully",
-            user,
+            user: hidePasswordUser,
             token
         })
     }

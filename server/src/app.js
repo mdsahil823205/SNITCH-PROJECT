@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+// google auth start
 passport.use(passport.initialize())
 passport.use(new GoogleStrategy({
     clientID: config.google.clientID,
@@ -17,9 +17,16 @@ passport.use(new GoogleStrategy({
 }, (accessToken, refreshToken, profile, done) => {
     return done(null, profile)
 }))
+// google auth end
+
 // auth routes start
 import authRouter from "./routes/auth.routes.js";
 app.use("/api/auth", authRouter);
 // auth routes end
+
+// product routes start
+import productRouter from "./routes/product.routes.js";
+app.use("/api/product", productRouter);
+// product routes end
 
 export default app

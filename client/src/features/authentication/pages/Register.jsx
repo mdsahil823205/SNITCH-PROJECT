@@ -3,6 +3,7 @@ import { useAuth } from "../hooks/useAuth.js";
 import DarkModeAndLightMode from "../components/DarkModeAndLightMode.jsx";
 import { NavLink } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import ContinueWithGoogle from "../components/ContinueWithGoogle.jsx";
 
 const Register = () => {
   const { handleRegister } = useAuth();
@@ -13,24 +14,26 @@ const Register = () => {
     contact: "",
     password: "",
   });
+  const [isSeller, setIsSeller] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await handleRegister(
       formData.email,
       formData.password,
       formData.fullName,
       formData.contact,
+      isSeller
     );
   };
 
   return (
     <div className="min-h-screen flex text-gray-900 dark:text-gray-100 bg-[#f8f9fa] dark:bg-[#131313] transition-colors duration-300">
-      
+
       {/* Left Pane - Image */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-gray-200 dark:bg-[#1b1b1b] overflow-hidden">
         <img
@@ -97,7 +100,7 @@ const Register = () => {
               className="w-full px-4 py-3 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none border-b-2 focus:border-black dark:focus:border-white transition-all text-sm"
               required
             />
-            
+
             {/* Password Container Fixed */}
             <div className="relative">
               <input
@@ -109,7 +112,7 @@ const Register = () => {
                 className="w-full px-4 py-3 pr-12 bg-white dark:bg-[#1b1b1b] border border-gray-300 dark:border-[#353535] rounded-md focus:outline-none border-b-2 focus:border-black dark:focus:border-white transition-all text-sm"
                 required
               />
-              <button 
+              <button
                 type="button" // Prevents form submission
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black dark:hover:text-white transition-colors"
                 onClick={() => setShowPassword(!showPassword)}
@@ -118,8 +121,21 @@ const Register = () => {
               </button>
             </div>
 
+            {/* Checkbox for Seller */}
+            <div className="flex items-center gap-2 mt-2 mb-2">
+              <input 
+                type="checkbox" 
+                id="isSeller" 
+                checked={isSeller} 
+                onChange={(e) => setIsSeller(e.target.checked)} 
+                className="w-4 h-4 cursor-pointer text-black bg-gray-100 border-gray-300 rounded focus:ring-black dark:focus:ring-white dark:ring-offset-[#1b1b1b] focus:ring-2 dark:bg-[#1b1b1b] dark:border-[#353535]"
+              />
+              <label htmlFor="isSeller" className="text-sm font-medium text-gray-700 dark:text-[#c6c6c6] cursor-pointer selection:bg-transparent">
+                Register as a seller
+              </label>
+            </div>
+
             <div className="pt-2">
-              <a href="/api/auth/google" className="underline">continue with google</a>
               <button
                 type="submit"
                 className="w-full mt-4 bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 rounded-md hover:opacity-90 active:scale-[0.98] transition-all text-sm tracking-wide shadow-md"
@@ -127,6 +143,7 @@ const Register = () => {
                 CREATE ACCOUNT
               </button>
             </div>
+            <ContinueWithGoogle />
           </form>
 
           <footer className="mt-8 text-center text-sm text-gray-600 dark:text-[#c6c6c6]">
