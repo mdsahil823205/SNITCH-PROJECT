@@ -1,6 +1,10 @@
 import productModel from "../model/product.model.js";
 import uploadFile from "../service/storage.service.js";
-
+/**
+ * @description create product
+ * @route POST /api/product/
+ * @access Private
+ **/
 export const createProduct = async (req, res) => {
     try {
         const { title, description, priceAmount, priceCurrency } = req.body;
@@ -52,3 +56,14 @@ export const createProduct = async (req, res) => {
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 };
+
+/**
+ * @description get all products
+ * @route GET /api/product/seller
+ * @access Private
+ **/
+export const getAllProducts = async (req, res) => {
+    const seller = req.user || req.user.id
+    const products = await productModel.find({ seller })
+    return res.status(200).json({ message: "Products fetched successfully", success: true, products })
+}
