@@ -63,7 +63,12 @@ export const createProduct = async (req, res) => {
  * @access Private
  **/
 export const getAllProducts = async (req, res) => {
-    const seller = req.user || req.user.id
-    const products = await productModel.find({ seller })
-    return res.status(200).json({ message: "Products fetched successfully", success: true, products })
+    try {
+        const seller = req.user || req.user.id
+        const products = await productModel.find({ seller })
+        return res.status(200).json({ message: "Products fetched successfully", success: true, products })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error", success: false });
+    }
 }
